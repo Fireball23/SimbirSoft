@@ -1,0 +1,25 @@
+---
+   - hosts: localhost
+     tasks:
+      - name: "Install packages"
+        apt: 
+           name: python 
+           state: latest
+        apt:
+           name: python-pip
+           state: latest
+
+        apt:
+           name: git
+           state: latest
+
+      - name: "Download Flaskex"
+        git: repo=https://github.com/anfederico/Flaskex dest=/home/anton/Documents/SimbirSoft
+
+      - name: "Flaskex installation"
+        pip:
+                requirements: requirements.txt
+                chdir: /home/anton/Documents/SimbirSoft
+
+      - name: "start app"
+        command: "python /home/anton/Documents/SimbirSoft/app.py"
