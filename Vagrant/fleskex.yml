@@ -1,0 +1,30 @@
+---
+   - hosts: all
+     become: true
+     become_method: su
+     become_user: root
+     become_exe: "sudo su -"
+
+     tasks:
+      - name: "Install packages"
+        apt: 
+           name: python 
+           state: latest
+        apt:
+           name: python3-pip
+           state: latest
+
+        apt:
+           name: git
+           state: latest
+
+      - name: "Download Flaskex"
+        git: repo=https://github.com/anfederico/Flaskex dest=/home/SimbirSoft
+
+      - name: "Flaskex installation"
+        pip:
+                requirements: requirements.txt
+                chdir: /home/SimbirSoft
+
+      - name: "start app"
+        command: "python /home/SimbirSoft/app.py"
